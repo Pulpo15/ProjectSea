@@ -10,7 +10,7 @@ public class Boat : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        RB.AddForce(new Vector3(0.5f, 0, 0));
+        RB.AddForce(new Vector3(50, 0, 0));
     }
 }
 
