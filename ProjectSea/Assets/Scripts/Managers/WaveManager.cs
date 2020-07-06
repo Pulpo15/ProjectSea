@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public class WaveManager : MonoBehaviour {
     }
 
     public float GetWaveHeight(float _x, float _y) {
-        return amplitude * Mathf.Sin(_x / length + offset) * Mathf.Cos(_y / length + offset);
+        var perl = Mathf.PerlinNoise(_x, _y);
+        return amplitude * Mathf.Cos(perl + _x/ length + offset) * Mathf.Cos(perl + _y/ length + offset)/* + Mathf.PI * 2*/;
     }
 }
