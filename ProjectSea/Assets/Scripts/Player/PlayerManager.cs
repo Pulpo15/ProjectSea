@@ -16,10 +16,11 @@ public class PlayerManager : MonoBehaviour {
 
     public float speed = 12f;
 
-    public float gravity = 9.8f;
-    public float fallVelocity = 0;
+    [Header("Jump")]
+    public LayerMask groundLayers;
+    public CapsuleCollider col;
 
-    Vector3 move;
+    public float jumpForce = 7;
 
     void Start() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -35,25 +36,35 @@ public class PlayerManager : MonoBehaviour {
         yRotation -= mouseX;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0);
+        transform.localRotation = Quaternion.Euler(xRotation, yRotation / mouseSensitivity, 0);
 
-        PlayerBody.localRotation = Quaternion.Euler(0, xRotation, 0);
-
-        //PlayerBody.transform.position = transform.position;
+        PlayerBody.localRotation = Quaternion.Euler(0, yRotation, 0);
 
         //Movement
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal") * speed;
+        float z = Input.GetAxis("Vertical") * speed;
 
-        move = transform.right * x + transform.forward * z;
+        Vector3 move = transform.parent.right * x + transform.parent.forward * z;
 
-        RB.velocity = move * speed;
+        //if (RB.velocity.magnitude >= 12f) {
+        //    RB.velocity += move - move;
+        //} else {
+        //}
+            RB.velocity += move;
+
+        //if (RB.velocity.magnitude <= 10) {
+        //    //RB.AddForce(move);
+        //}
 
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D))
             RB.velocity = Vector3.zero;
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            RB.AddForce(new Vector3(0, 10, 0));
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()) {
+            RB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+    }
+
+    private bool IsGrounded() {
+        return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, col.bounds.min.y, col.bounds.center.z), col.radius * .9f, groundLayers);
     }
 }
