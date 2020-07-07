@@ -6,21 +6,19 @@ public class PlayerManager : MonoBehaviour {
     [Header("Rotation")]
     public float mouseSensitivity = 100f;
 
-    public Transform PlayerBody;
-
-    float xRotation = 0f;
-    float yRotation = 0f;
+    private float xRotation = 0f;
+    private float yRotation = 0f;
 
     [Header("Movement")]
     public Rigidbody RB;
 
-    public float speed = 12f;
+    public float speed = 12f; //12 by default
 
     [Header("Jump")]
     public LayerMask groundLayers;
     public CapsuleCollider col;
 
-    public float jumpForce = 7;
+    public float jumpForce = 7; //7 by default
 
     void Start() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -38,33 +36,24 @@ public class PlayerManager : MonoBehaviour {
 
         transform.localRotation = Quaternion.Euler(xRotation, yRotation / mouseSensitivity, 0);
 
-        PlayerBody.localRotation = Quaternion.Euler(0, yRotation, 0);
+        transform.parent.localRotation = Quaternion.Euler(0, yRotation, 0);
 
         //Movement
-        float x = Input.GetAxis("Horizontal") * speed;
-        float z = Input.GetAxis("Vertical") * speed;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.parent.right * x + transform.parent.forward * z;
+        Vector3 move = Vector3.right * x + Vector3.forward * z;
 
-        //if (RB.velocity.magnitude >= 12f) {
-        //    RB.velocity += move - move;
-        //} else {
-        //}
-            RB.velocity += move;
+        transform.parent.Translate(move * Time.deltaTime * speed);
 
-        //if (RB.velocity.magnitude <= 10) {
-        //    //RB.AddForce(move);
-        //}
-
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D))
-            RB.velocity = Vector3.zero;
-
+        //Jump
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()) {
             RB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
     private bool IsGrounded() {
-        return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, col.bounds.min.y, col.bounds.center.z), col.radius * .9f, groundLayers);
+        return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, 
+            col.bounds.min.y, col.bounds.center.z), col.radius * .9f, groundLayers);
     }
 }
