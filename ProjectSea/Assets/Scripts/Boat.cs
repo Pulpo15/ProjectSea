@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Boat : MonoBehaviour {
+
     public Rigidbody RB;
+    public float speed; 
 
     private void Start() {
         
     }
 
     private void FixedUpdate() {
-        RB.AddForce(new Vector3(50, 0, 0));
+        //transform.Translate(Vector3.forward + Vector3.right * 0.1f);
+        RB.AddForce(Vector3.forward + Vector3.right * transform.rotation.y * Time.deltaTime * speed);
     }
 }
 
