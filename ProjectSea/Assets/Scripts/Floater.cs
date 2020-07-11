@@ -31,7 +31,9 @@ public class Floater : MonoBehaviour {
             RB.AddForce(displacementMultiplier * -RB.velocity * waterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
             RB.AddTorque(displacementMultiplier * -RB.angularVelocity * waterAngularDrag* Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
+    }
 
+    private void Update() {
         if (WaveManager.instance.amplitude == 0)
             displacementAmount = 0.2f;
         else if (WaveManager.instance.amplitude >= 0 && WaveManager.instance.amplitude <= 0.5f)

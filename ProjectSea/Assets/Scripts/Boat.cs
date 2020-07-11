@@ -13,7 +13,7 @@ public class Boat : MonoBehaviour {
 
     private void FixedUpdate() {
         //transform.Translate(Vector3.forward + Vector3.right * 0.1f);
-        RB.AddForce(Vector3.forward + Vector3.right * transform.rotation.y * Time.deltaTime * speed);
+        RB.AddForce(transform.forward * Time.deltaTime * speed);
     }
 }
 
