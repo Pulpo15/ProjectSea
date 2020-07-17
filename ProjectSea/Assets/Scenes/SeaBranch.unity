@@ -8108,7 +8108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &558232516
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8227,8 +8227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6620c3b54a9a2d84081fd5b1e0ed5354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RB: {fileID: 0}
-  speed: 0
+  Motor: {fileID: 0}
+  steerPower: 500
+  power: 5
+  maxSpeed: 10
+  drag: 0.1
 --- !u!1 &573262515
 GameObject:
   m_ObjectHideFlags: 0
@@ -14848,6 +14851,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022885842}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1024655987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024655988}
+  m_Layer: 0
+  m_Name: Motor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1024655988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024655987}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.481}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1143071627789024326}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030925686
 GameObject:
   m_ObjectHideFlags: 0
@@ -29096,8 +29129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6620c3b54a9a2d84081fd5b1e0ed5354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RB: {fileID: 330681670996944637}
-  speed: 0
+  Motor: {fileID: 1024655988}
+  steerPower: 500
+  power: 5
+  maxSpeed: 10
+  drag: 0.1
 --- !u!1 &801128582627400899
 GameObject:
   m_ObjectHideFlags: 0
@@ -29148,6 +29184,7 @@ Transform:
   - {fileID: 2850116643650866544}
   - {fileID: 1419335434}
   - {fileID: 2100294567}
+  - {fileID: 1024655988}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
