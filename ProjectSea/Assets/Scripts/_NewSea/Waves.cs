@@ -98,7 +98,7 @@ public class Waves : MonoBehaviour {
             + Mesh.vertices[index(p3.x, p3.z)].y * (max - Vector3.Distance(p3, localPos))
             + Mesh.vertices[index(p4.x, p4.z)].y * (max - Vector3.Distance(p4, localPos));
 
-        return height + transform.lossyScale.y / dist;
+        return height / dist;
     }
 
     protected void Update() {
