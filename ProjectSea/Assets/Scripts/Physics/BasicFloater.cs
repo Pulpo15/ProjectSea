@@ -7,14 +7,14 @@ public class BasicFloater : MonoBehaviour {
     public float AirDrag;
     public float WaterDrag;
     public float AngularDrag;
+    public Rigidbody RB;
     public Transform[] FloatPoints;
 
     protected Waves Waves;
-    protected Rigidbody RB;
 
     private void Awake() {
         Waves = FindObjectOfType<Waves>();
-        RB = GetComponent<Rigidbody>();
+        //RB = GetComponent<Rigidbody>();
     }
 
     private void Start() {
@@ -22,10 +22,11 @@ public class BasicFloater : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        //RB.centerOfMass = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         for (int i = 0; i < FloatPoints.Length; i++) {
             if (FloatPoints[i].position.y > Waves.GetHeight(FloatPoints[i].position)) {
                 RB.drag = AirDrag;
-                RB.AddForceAtPosition(new Vector3(0f, Physics.gravity.y, 0), FloatPoints[i].position);
+                RB.AddForceAtPosition(new Vector3(0f, Physics.gravity.y,0), FloatPoints[i].position);
                 RB.AddTorque(RB.angularVelocity * WaterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
             } else {
                 RB.drag = WaterDrag;
@@ -36,7 +37,6 @@ public class BasicFloater : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        //Draw Center
         Gizmos.color = Color.red;
         Gizmos.DrawCube(transform.position, Vector3.one * 1.2f);
         if (FloatPoints == null)
@@ -45,7 +45,7 @@ public class BasicFloater : MonoBehaviour {
         for (int i = 0; i < FloatPoints.Length; i++) {
             if (FloatPoints[i] == null)
                 continue;
-            //Draw Floaters
+            //Draw Sphere
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(FloatPoints[i].position, 0.1f);
         }
