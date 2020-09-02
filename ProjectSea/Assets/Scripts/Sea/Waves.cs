@@ -9,7 +9,7 @@ public class Waves : MonoBehaviour {
     public Octave[] Octaves;
 
     protected MeshFilter MeshFilter;
-    protected Mesh Mesh;
+    public Mesh Mesh;
 
     protected void Start() {
         Mesh = new Mesh();
@@ -23,6 +23,15 @@ public class Waves : MonoBehaviour {
 
         MeshFilter = gameObject.AddComponent<MeshFilter>();
         MeshFilter.mesh = Mesh;
+    }
+
+    public void ReloadWaves(int _dimension) {
+        dimension = _dimension;
+        Mesh.vertices = GenerateVerts();
+        Mesh.triangles = GenerateTries();
+        Mesh.uv = GenerateUV();
+        Mesh.RecalculateBounds();
+        Mesh.RecalculateNormals();
     }
 
     private Vector2[] GenerateUV() {
@@ -101,7 +110,7 @@ public class Waves : MonoBehaviour {
         return height / dist;
     }
 
-    protected void Update() {
+    protected virtual void Update() {
         var verts = Mesh.vertices;
         for (int x = 0; x <= dimension; x++) {
             for (int z = 0; z <= dimension; z++) {

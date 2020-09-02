@@ -2376,6 +2376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1166094086}
   - component: {fileID: 1166094085}
+  - component: {fileID: 1166094088}
   - component: {fileID: 1166094087}
   m_Layer: 0
   m_Name: Waves
@@ -2396,7 +2397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7ab06179ac96a4daa0b13abe4b7ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimension: 90
+  dimension: 100
   UVScale: 15
   Octaves:
   - speed: {x: 1, y: 1}
@@ -2419,6 +2420,7 @@ MonoBehaviour:
     scale: {x: 1, y: 1}
     height: 1
     alternate: 0
+  Mesh: {fileID: 0}
 --- !u!4 &1166094086
 Transform:
   m_ObjectHideFlags: 0
@@ -2472,6 +2474,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1166094088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166094084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641ac8920b7b5f942bf6f82a9a364ed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChunkDistance: 100
 --- !u!1 &1203885859
 GameObject:
   m_ObjectHideFlags: 0
