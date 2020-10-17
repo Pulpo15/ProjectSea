@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Waves : MonoBehaviour {
-    public int dimension = 10;
+    public int dimension;
     public float UVScale;
     public Octave[] Octaves;
 
-    protected MeshFilter MeshFilter;
+    protected MeshFilter[] MeshFilter;
+    protected GameObject[] WavesGO;
     protected Mesh Mesh;
 
     protected void Start() {
+        MeshFilter = new MeshFilter[10];
+        WavesGO = new GameObject[10];
         Mesh = new Mesh();
         Mesh.name = gameObject.name;
 
@@ -21,8 +24,19 @@ public class Waves : MonoBehaviour {
         Mesh.RecalculateBounds();
         Mesh.RecalculateNormals();
 
-        MeshFilter = gameObject.AddComponent<MeshFilter>();
-        MeshFilter.mesh = Mesh;
+        for (int i = 0; i < MeshFilter.Length; i++) {
+            WavesGO[i] = new GameObject();
+            WavesGO[i].name = "WavesGO" + i;
+            if (!gameObject.GetComponent<MeshFilter>())
+                MeshFilter[i] = gameObject.AddComponent<MeshFilter>();
+            else {
+                MeshRenderer _MeshRenderer = gameObject.GetComponent<MeshRenderer>();
+                WavesGO[i].AddComponent<MeshRenderer>().material = _MeshRenderer.material;
+                MeshFilter[i] = WavesGO[i].AddComponent<MeshFilter>();
+            }
+            MeshFilter[i].mesh = Mesh;
+            Debug.LogWarning(i + 1 + " Meshes have been generated");
+        }
     }
 
     private Vector2[] GenerateUV() {
