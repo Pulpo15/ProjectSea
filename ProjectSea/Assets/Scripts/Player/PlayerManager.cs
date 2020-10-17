@@ -49,7 +49,10 @@ public class PlayerManager : MonoBehaviour {
         //Jump
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()) {
             RB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        } else if (!Input.GetKey(KeyCode.Space) && IsGrounded()) {
+            RB.velocity = new Vector3(0,RB.velocity.y,0);
         }
+
     }
 
     private bool IsGrounded() {
