@@ -10,19 +10,34 @@ public class Waves : MonoBehaviour {
 
     protected MeshFilter[] MeshFilter;
     protected GameObject[] WavesGO;
+    protected Mesh[] Meshes;
     protected Mesh Mesh;
+
+    private int _Index = 10;
+    //private int _xIndex = 10;
 
     protected void Start() {
         MeshFilter = new MeshFilter[10];
         WavesGO = new GameObject[10];
+        Meshes = new Mesh[100];
         Mesh = new Mesh();
         Mesh.name = gameObject.name;
+
+        for (int i = 0; i < Meshes.Length; i++) {
+            Meshes[i] = new Mesh();
+            Meshes[i].name = "Mesh" + i;
+        }
 
         Mesh.vertices = GenerateVerts();
         Mesh.triangles = GenerateTries();
         Mesh.uv = GenerateUV();
         Mesh.RecalculateBounds();
         Mesh.RecalculateNormals();
+
+        for(int i = 0; i < Meshes.Length; i++) {
+            Meshes[i].RecalculateBounds();
+            Meshes[i].RecalculateNormals();
+        }
 
         for (int i = 0; i < MeshFilter.Length; i++) {
             WavesGO[i] = new GameObject();
@@ -34,9 +49,10 @@ public class Waves : MonoBehaviour {
                 WavesGO[i].AddComponent<MeshRenderer>().material = _MeshRenderer.material;
                 MeshFilter[i] = WavesGO[i].AddComponent<MeshFilter>();
             }
-            MeshFilter[i].mesh = Mesh;
+            MeshFilter[i].mesh = Meshes[i];
             Debug.LogWarning(i + 1 + " Meshes have been generated");
         }
+        MeshFilter[0].mesh = Mesh;
     }
 
     private Vector2[] GenerateUV() {
@@ -46,9 +62,29 @@ public class Waves : MonoBehaviour {
             for (int z = 0; z <= dimension; z++) {
                 var vec = new Vector2((x / UVScale) % 2, (z / UVScale) % 2);
                 uvs[index(x, z)] = new Vector2(vec.x <= 1 ? vec.x : 2 - vec.x, vec.y <= 1 ? vec.y : 2 - vec.y);
+                //if (z == _Index && z < dimension) {
+                //    //Meshes[_Index / 10].uv = new Vector2[Mesh.vertices.Length];
+                //    //for (int i = 0; i < x; i++) {
+                //    //    Meshes[_Index / 10].uv[i] = uvs[_Index];
+                //    //}
+                //    Meshes[_Index / 10].uv = uvs;
+                //    _Index += 10;
+                //}
+            }
+            //_Index = _xIndex;
+            //_xIndex = 10;
+            if (x == _Index && x < dimension) {
+                //Meshes[_Index / 10].uv = new Vector2[Mesh.vertices.Length];
+                //for (int i = 0; i < x; i++) {
+                //    Meshes[_Index / 10].uv[i] = uvs[_Index];
+                //}
+                Meshes[_Index / 10].uv = uvs;
+                _Index += 10;
+                //_xIndex = 10;
             }
         }
 
+        _Index = 10;
         return uvs;
     }
 
@@ -58,8 +94,26 @@ public class Waves : MonoBehaviour {
         for (int x = 0; x <= dimension; x++) {
             for (int z = 0; z <= dimension; z++) {
                 verts[index(x, z)] = new Vector3(x, 0, z);
+                //if (z == _Index && z < dimension) {
+                //    //Meshes[_Index / 10].uv = new Vector2[Mesh.vertices.Length];
+                //    //for (int i = 0; i < x; i++) {
+                //    //    Meshes[_Index / 10].uv[i] = uvs[_Index];
+                //    //}
+                //    Meshes[_Index / 10].vertices = verts;
+                //    _Index += 10;
+                //}
+            }
+            if (x == _Index && x < dimension) {
+                //Meshes[_Index / 10].vertices = new Vector3[(dimension + 1) * (dimension + 1)];
+                //for (int i = 0; i < x; i++) {
+                //    Meshes[_Index / 10].vertices[i] = verts[_Index];
+                //}
+                Meshes[_Index / 10].vertices = verts;
+                _Index += 10;
             }
         }
+
+        _Index = 10;
         return verts;
     }
 
@@ -78,8 +132,26 @@ public class Waves : MonoBehaviour {
                 tries[index(x, z) * 6 + 3] = index(x, z);
                 tries[index(x, z) * 6 + 4] = index(x, z + 1);
                 tries[index(x, z) * 6 + 5] = index(x + 1, z + 1);
+                //if (z == _Index && z < dimension) {
+                //    //Meshes[_Index / 10].uv = new Vector2[Mesh.vertices.Length];
+                //    //for (int i = 0; i < x; i++) {
+                //    //    Meshes[_Index / 10].uv[i] = uvs[_Index];
+                //    //}
+                //    Meshes[_Index / 10].triangles = tries;
+                //    _Index += 10;
+                //}
+            }
+            if (x == _Index && x < dimension) {
+                //Meshes[_Index / 10].triangles = new int[Mesh.vertices.Length * 6];
+                //for (int i = 0; i < x; i++) {
+                //    Meshes[_Index / 10].triangles[i] = tries[_Index];
+                //}
+                Meshes[_Index / 10].triangles = tries;
+                _Index += 10;
             }
         }
+
+        _Index = 10;
         return tries;
     }
 
